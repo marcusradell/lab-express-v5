@@ -9,14 +9,11 @@ app.get("/users", function (req, res) {
   res.json([{ name: "johnny" }]);
 });
 
-test("GET /users", () => {
-  request(app)
+test("GET /users", async () => {
+  const res = await request(app)
     .get("/users")
     .expect("Content-Type", /json/)
-    .expect(200)
-    .end(function (err, res) {
-      if (err) throw err;
+    .expect(200);
 
-      deepEqual(res.body, [{ name: "johnny" }]);
-    });
+  deepEqual(res.body, [{ name: "johnny" }]);
 });
