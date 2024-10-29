@@ -1,19 +1,22 @@
 import request from "supertest";
 import express from "express";
 import { deepEqual } from "assert/strict";
+import { test } from "node:test";
 
 const app = express();
 
-app.get("/user", function (req, res) {
-  res.json({ name: "johnny" });
+app.get("/users", function (req, res) {
+  res.json([{ name: "johnny" }]);
 });
 
-request(app)
-  .get("/user")
-  .expect("Content-Type", /json/)
-  .expect(200)
-  .end(function (err, res) {
-    if (err) throw err;
+test("GET /users", () => {
+  request(app)
+    .get("/users")
+    .expect("Content-Type", /json/)
+    .expect(200)
+    .end(function (err, res) {
+      if (err) throw err;
 
-    deepEqual(res.body, { name: "johnny's" });
-  });
+      deepEqual(res.body, [{ name: "johnny" }]);
+    });
+});
